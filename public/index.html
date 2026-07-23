@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BG Export — Gerador de Minuta de Fatura</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <img src="assets/logo-bg-export.png" alt="BG Export">
+  <div class="topbar-title">
+    <h1>Gerador de Minuta de Fatura</h1>
+    <p>Ferramenta interna — transforma a nota de compra do fornecedor em uma minuta de exportação da BG Export</p>
+  </div>
+</header>
+
+<main class="container">
+
+  <section id="stepUpload" class="card step">
+    <h2><span class="step-num">1</span> Solte o PDF da nota de compra</h2>
+    <div id="dropzone" class="dropzone">
+      <svg viewBox="0 0 24 24" width="40" height="40" stroke="#12a8a6" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M12 4l-4 4M12 4l4 4"/><path d="M4 16v3a2 2 0 002 2h12a2 2 0 002-2v-3"/></svg>
+      <p><b>Arraste o PDF aqui</b> ou clique para escolher</p>
+      <input type="file" id="fileInput" accept="application/pdf" hidden>
+    </div>
+    <p id="uploadStatus" class="status"></p>
+  </section>
+
+  <section id="stepForm" class="card step hidden">
+    <h2><span class="step-num">2</span> Confira os dados e informe o cliente final</h2>
+    <p id="extractWarning" class="warning hidden"></p>
+
+    <div class="form-grid">
+      <fieldset>
+        <legend>Produto (extraído do PDF)</legend>
+        <label>Descrição<input id="pDescricao" type="text"></label>
+        <div class="row3">
+          <label>NCM/SH<input id="pNcm" type="text"></label>
+          <label>CFOP<input id="pCfop" type="text" value="7501"></label>
+          <label>Unidade<input id="pUnidade" type="text" value="TON"></label>
+        </div>
+        <div class="row3">
+          <label>Quantidade<input id="pQuantidade" type="number" step="0.001"></label>
+          <label>Peso líquido (kg)<input id="lPesoLiquido" type="number" step="0.001"></label>
+          <label>Peso bruto (kg)<input id="lPesoBruto" type="number" step="0.001"></label>
+        </div>
+        <div class="row3">
+          <label>Container<input id="lContainer" type="text"></label>
+          <label>Lacre<input id="lLacre" type="text"></label>
+          <label>Booking/Reserva<input id="lBooking" type="text"></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Referência interna (não sai na minuta ao cliente)</legend>
+        <div class="row3">
+          <label>Fornecedor<input id="oFornecedor" type="text"></label>
+          <label>NF de compra nº<input id="oNumero" type="text"></label>
+          <label>Série<input id="oSerie" type="text"></label>
+        </div>
+        <div class="row3">
+          <label>Emissão da NF origem<input id="oEmissao" type="text"></label>
+          <label>Valor de compra (custo)<input id="oValorCompra" type="number" step="0.01"></label>
+          <label>&nbsp;</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Destinatário — cliente final (preencha)</legend>
+        <label>Nome / Razão social<input id="dNome" type="text" placeholder="Ex: Greentec Imaging Co., Limited."></label>
+        <label>Endereço<input id="dEndereco" type="text"></label>
+        <div class="row3">
+          <label>Cidade<input id="dCidade" type="text"></label>
+          <label>País<input id="dPais" type="text"></label>
+          <label>CEP<input id="dCep" type="text"></label>
+        </div>
+        <label>CNPJ/CPF (se houver)<input id="dCnpj" type="text"></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Revenda</legend>
+        <div class="row3">
+          <label>Novo valor unitário<input id="pValorUnitario" type="number" step="0.01"></label>
+          <label>Novo valor total<input id="pValorTotal" type="number" step="0.01"></label>
+          <label>Nº da minuta<input id="numeroMinuta" type="text" value="1"></label>
+        </div>
+        <label>Observações<textarea id="observacoes" rows="2"></textarea></label>
+      </fieldset>
+    </div>
+
+    <button id="btnGenerate" class="btn-primary">Gerar minuta em PDF</button>
+    <p id="generateStatus" class="status"></p>
+  </section>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "bgexport-invoice-tool",
+  "version": "0.1.0",
+  "description": "Ferramenta interna da BG Export para gerar minutas de fatura de exportacao a partir de notas fiscais de compra",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^4.19.2",
+    "multer": "^2.0.1",
+    "pdf-parse": "^1.1.1",
+    "puppeteer": "^23.6.0"
+  }
+}
