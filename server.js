@@ -53,10 +53,7 @@ app.post("/api/generate", async (req, res) => {
   } catch (err) {
     if (browser) await browser.close();
     console.error(err);
-    res.status(500).json({
-      error: "Não foi possível gerar o PDF.",
-      debug: { message: err.message, stack: err.stack },
-    });
+    res.status(500).json({ error: "Não foi possível gerar o PDF." });
   }
 });
 
