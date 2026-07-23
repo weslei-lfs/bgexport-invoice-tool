@@ -3,10 +3,10 @@ const fs = require("fs");
 const express = require("express");
 const multer = require("multer");
 const pdf = require("pdf-parse");
-const puppeteer = require("puppeteer");
 
 const { extractInvoiceData } = require("./lib/extract");
 const { buildInvoiceHtml } = require("./lib/renderTemplate");
+const { launchBrowser } = require("./lib/browser");
 
 const app = express();
 const PORT = process.env.PORT || 8090;
@@ -41,7 +41,7 @@ app.post("/api/generate", async (req, res) => {
   let browser;
   try {
     const html = buildInvoiceHtml(req.body || {});
-    browser = await puppeteer.launch({ headless: "new" });
+    browser = await launchBrowser();
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: "networkidle0" });
     const pdfBytes = await page.pdf({ format: "A4", printBackground: true });
@@ -57,6 +57,10 @@ app.post("/api/generate", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`BG Export invoice tool rodando em http://localhost:${PORT}`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`BG Export invoice tool rodando em http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
